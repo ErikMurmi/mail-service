@@ -3,8 +3,14 @@ const nodemailer = require("nodemailer");
 
 const app = express();
 const cors = require("cors");
+const PORT = process.env.PORT || 3030;
+ 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
+
+
 // Configuración del servidor de correo electrónico
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -40,6 +46,6 @@ app.post("/send-email", function(req, res) {
   });
 });
 
-app.listen(3000, function() {
-  console.log("Servidor de correo electrónico escuchando en el puerto 3000");
+app.listen(PORT, function() {
+  console.log("Servidor de correo electrónico escuchando en el puerto " + PORT);
 });
