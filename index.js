@@ -22,16 +22,23 @@ let transporter = nodemailer.createTransport({
   }
 });
 
-app.post("/send-email", function(req, res) {
+app.post("/sendPokemon", async function(req, res) {
   let recipient = req.body.email;
   let message = req.body.message;
+  let pokemon = req.body.pokemon;
 
+  
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+  //const albumsText = await response.json()
+  // console.log('albums: ', response)
+  const texto = await response.json()
+  
   // Configuración del correo electrónico
   let mailOptions = {
-    from: '"Welcome Music Ratios" <erikmurmi@gmail.com>' ,
+    from: '"Welcome to our Pokedex" <erikmurmi@gmail.com>' ,
     to: recipient,
-    subject: "Ahora eres música",
-    text: message
+    subject: `Ahora eres ${pokemon.toUpperCase()} `,
+    text: `${ pokemon.toUpperCase()} \n Habilities: ` +  JSON.stringify(texto["abilities"])
   };
 
   // Envío del correo electrónico
